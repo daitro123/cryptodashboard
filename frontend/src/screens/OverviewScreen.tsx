@@ -1,12 +1,12 @@
 import React from "react";
 import PortfolioValue from "../components/PortfolioValue";
 
-const Overview = () => {
+const OverviewScreen = () => {
     return (
-        <div>
+        <>
             <PortfolioValue />
-        </div>
+        </>
     );
 };
 
-export default Overview;
+export default OverviewScreen;

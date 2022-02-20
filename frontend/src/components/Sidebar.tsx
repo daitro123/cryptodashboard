@@ -5,7 +5,7 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    IconButton,
+    IconButton as MuiIconButton,
     Avatar,
     Typography,
 } from "@mui/material";
@@ -14,17 +14,23 @@ import React, { useState } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import styled from "styled-components";
 import { ChevronLeft } from "@mui/icons-material";
+import theme from "../theme";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface IconButtonProp {
+    open: boolean;
+}
+
 const Sidebar = ({ open, setOpen }: SidebarProps) => {
     return (
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} anchor="left">
             <DrawerHeader>
-                <IconButton onClick={() => setOpen(!open)}>
+                <IconButton open={open} onClick={() => setOpen(!open)}>
                     <ChevronLeft />
                 </IconButton>
             </DrawerHeader>
@@ -39,29 +45,25 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
             </AvatarContainer>
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button component={Link} to="/overview">
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <DashboardIcon color="secondary" />
                     </ListItemIcon>
                     <ListItemText>Overview</ListItemText>
                 </ListItem>
-                <ListItem button>
+
+                <ListItem button component={Link} to="/crypto">
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <DashboardIcon color="secondary" />
                     </ListItemIcon>
-                    <ListItemText>Overview</ListItemText>
+                    <ListItemText>Crypto</ListItemText>
                 </ListItem>
-                <ListItem button>
+
+                <ListItem button component={Link} to="/portfolio">
                     <ListItemIcon>
-                        <DashboardIcon />
+                        <DashboardIcon color="secondary" />
                     </ListItemIcon>
-                    <ListItemText>Overview</ListItemText>
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText>Overview</ListItemText>
+                    <ListItemText>Portfolio</ListItemText>
                 </ListItem>
             </List>
         </Drawer>
@@ -70,11 +72,20 @@ const Sidebar = ({ open, setOpen }: SidebarProps) => {
 
 export default Sidebar;
 
+const IconButton = styled(MuiIconButton)<IconButtonProp>`
+    transform: ${(props) => (!props.open ? "rotate(180deg)" : "rotate(0)")};
+`;
+
 const Drawer = styled(MuiDrawer)`
     & .MuiDrawer-paper {
-        width: ${(props) => (!props.open ? "45px" : "220px")};
+        width: ${(props) => (!props.open ? "50px" : "240px")};
         overflow-x: hidden;
         transition: all 0.3s ease-in;
+        background: linear-gradient(
+            to bottom,
+            ${theme.palette.primary.main},
+            ${theme.palette.primary.dark}
+        );
     }
 `;
 
@@ -82,6 +93,7 @@ const DrawerHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    min-height: 64px;
 `;
 
 const AvatarContainer = styled.div`
