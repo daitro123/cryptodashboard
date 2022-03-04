@@ -7,6 +7,7 @@ import {
     TableBody,
     TableRow,
 } from "@mui/material";
+import { green, red } from "@mui/material/colors";
 import React from "react";
 import styled from "styled-components";
 import { formatter } from "../utils/utils";
@@ -30,12 +31,12 @@ const CryptoTableMC = ({ rows }: CryptoTableMCProps) => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">24h %</TableCell>
-                        <TableCell align="right">Market Cap</TableCell>
-                        <TableCell align="right">Circulating Supply</TableCell>
+                        <TableHeaderRow>#</TableHeaderRow>
+                        <TableHeaderRow>Name</TableHeaderRow>
+                        <TableHeaderRow align="right">Price</TableHeaderRow>
+                        <TableHeaderRow align="right">24h %</TableHeaderRow>
+                        <TableHeaderRow align="right">Market Cap</TableHeaderRow>
+                        <TableHeaderRow align="right">Circulating Supply</TableHeaderRow>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -54,7 +55,16 @@ const CryptoTableMC = ({ rows }: CryptoTableMCProps) => {
                             <TableCell align="right">
                                 {formatter.format(row.current_price)}
                             </TableCell>
-                            <TableCell align="right">{row.price_change_percentage_24h}</TableCell>
+                            <TableCell
+                                align="right"
+                                sx={
+                                    row.price_change_percentage_24h > 0
+                                        ? { color: green[500] }
+                                        : { color: red[500] }
+                                }
+                            >
+                                {Math.round(row.price_change_percentage_24h * 100) / 100} %
+                            </TableCell>
                             <TableCell align="right">{formatter.format(row.market_cap)}</TableCell>
                             <TableCell align="right">
                                 {row.circulating_supply} {row.symbol.toUpperCase()}
@@ -73,4 +83,8 @@ const CryptoIcon = styled.img`
     height: 20px;
     width: 20px;
     margin-right: 10px;
+`;
+
+const TableHeaderRow = styled(TableCell)`
+    font-weight: 700;
 `;

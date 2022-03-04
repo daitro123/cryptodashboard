@@ -38,6 +38,9 @@ interface MainContainerProps {
 
 const MainContainer = styled.main<MainContainerProps>`
     margin-left: ${(props) => (props.openSidebar ? "240px" : "50px")};
-    margin-top: 120px;
+    padding-top: 120px;
     transition: all 0.3s ease-in;
+    min-height: 70vh;
+    display: grid;
+    place-items: center;
 `;
